@@ -14,7 +14,7 @@ Frontend de **ToolsFlow**, una aplicación web diseñada para gestionar herramie
 
 ---
 
-## 📦 Instalación
+## � Instalación
 
 ```bash
 # Clona el repositorio
@@ -25,11 +25,13 @@ cd toolsflow-frontend
 
 # Instala las dependencias
 npm install
+```
 
 ---
 
 ## 💻 Scripts útiles
 
+```bash
 # Iniciar el entorno de desarrollo
 npm run dev
 
@@ -41,11 +43,13 @@ npm run start
 
 # Lint del proyecto
 npm run lint
+```
 
 ---
 
 ## 🧪 Estructura del proyecto
 
+```bash
 📁 src
  ┣ 📂app              # Rutas y páginas con Next.js App Router
  ┣ 📂domain           # Entidades, DTOs y adaptadores
