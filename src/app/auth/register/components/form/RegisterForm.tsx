@@ -60,25 +60,33 @@ const RegisterForm = () => {
 			className="text-lg flex flex-col gap-2"
 		>
 			<div className="flex flex-col gap-1.5">
-				<p className="text-[var(--text-color-primary-400)]">nombre</p>
-				<input type="text" className="input_primary" {...register("name")} />
-			</div>
-			<div className="flex flex-col gap-1.5">
-				<p className="text-[var(--text-color-primary-400)]">email</p>
-				<input type="text" className="input_primary" {...register("email")} />
-			</div>
-			<div className="flex flex-col gap-1.5">
-				<p className="text-[var(--text-color-primary-400)]">password</p>
 				<input
+					type="text"
+					placeholder="Nombre"
+					className="input_segundary"
+					{...register("name")}
+				/>
+			</div>
+			<div className="flex flex-col gap-1.5">
+				<input
+					type="text"
+					placeholder="Email"
+					className="input_segundary"
+					{...register("email")}
+				/>
+			</div>
+			<div className="flex flex-col gap-1.5">
+				<input
+					placeholder="Password"
 					type="password"
-					className="input_primary"
+					className="input_segundary"
 					{...register("password")}
 				/>
 			</div>
-			<button className="btn_primary">Enviar</button>
+			<button className="btn_segundary mt-4">Enviar</button>
 			<Link
 				href={"/auth/login"}
-				className="mt-2 text-sm underline cursor-pointer"
+				className="mt-2 text-sm underline cursor-pointer mr-auto"
 			>
 				ya tienes cuenta?
 			</Link>
