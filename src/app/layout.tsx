@@ -28,9 +28,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body
-				className={`bg-[var(--background)] text-[var(--text-color-primary)]`}
-			>
+			<body className={`back_gradient text-[var(--text-color-primary)]`}>
 				{children}
 			</body>
 		</html>
