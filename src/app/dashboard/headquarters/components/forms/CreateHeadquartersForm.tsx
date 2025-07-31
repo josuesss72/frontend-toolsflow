@@ -10,7 +10,7 @@ const CreateHeadquartersForm = () => {
 		<form
 			onSubmit={handleSubmit(submit)}
 			action=""
-			className="flex flex-col gap-2"
+			className="flex flex-col gap-2 w-fit h-fit"
 		>
 			<input
 				type="text"
