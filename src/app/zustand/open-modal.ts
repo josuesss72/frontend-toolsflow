@@ -1,29 +1,25 @@
 import { create } from "zustand";
 
+type ModalType = "create" | "edit" | "confirm";
+type Data = any;
+
 type States = {
-	isOpenCreate: boolean;
-	isOpenEdit: boolean;
-	isOpenConfirm: boolean;
-	isOpen: { create: boolean; edit: boolean; confirm: boolean };
+	isOpen: Record<ModalType, boolean>;
+	dataSelected: Data | null;
 };
 
 type Actions = {
-	setIsOpenCreate: (value: boolean) => void;
-	setIsOpenEdit: (value: boolean) => void;
-	setIsOpen: (type: "edit" | "create" | "confirm", value: boolean) => void;
+	setIsOpen: (type: ModalType, value: boolean) => void;
+	setSelectedData: (data: Data | null) => void;
 };
 
-export const useOpenModalStore = create<States & Actions>()((set) => ({
-	isOpenCreate: false,
-	isOpenEdit: false,
-	isOpenConfirm: false,
+export const useOpenModalStore = create<States & Actions>((set) => ({
 	isOpen: {
 		create: false,
 		confirm: false,
 		edit: false,
 	},
-	setIsOpenCreate: (value) => set({ isOpenCreate: value }),
-	setIsOpenEdit: (value) => set({ isOpenEdit: value }),
+	dataSelected: null,
 	setIsOpen: (type, value) =>
 		set((state) => ({
 			isOpen: {
@@ -31,4 +27,5 @@ export const useOpenModalStore = create<States & Actions>()((set) => ({
 				[type]: value,
 			},
 		})),
+	setSelectedData: (data) => set({ dataSelected: data }),
 }));

@@ -8,9 +8,10 @@ import axios from "axios";
 
 export class HeadquartersRepository {
 	apiAuth = "";
-	constructor(private readonly apiUrl: string) {
-		this.apiAuth = `${apiUrl}/headquarters-auth`;
-		this.apiUrl = `${apiUrl}/headquarters`;
+	apiUrl = "";
+	constructor(private readonly baseUrl: string) {
+		this.apiAuth = `${this.baseUrl}/headquarters-auth`;
+		this.apiUrl = `${this.baseUrl}/headquarters`;
 	}
 
 	async register(data: PayloadHeadquarters, companyId: string, token: string) {
@@ -30,14 +31,21 @@ export class HeadquartersRepository {
 
 	async update(data: PayloadHeadquarters, token: string, id: string) {
 		const { career, number, street, indicative, phone, ...res } = data;
+
+		// si career, number y street vienen, se actualiza el address
+		// si indicative y phone vienen, se actualiza el phone
+		// se hace asi por que tenemos que hacer el formato del address y phone
+		const dataUpdate = {
+			...res,
+			...(career && number && street
+				? { address: `carrera ${career} #${street}-${number}` }
+				: {}),
+			...(indicative && phone ? { phone: `${indicative}${phone}` } : {}),
+		};
 		return axios
 			.patch<FetchSuccessHeadquarters>(
 				`${this.apiUrl}/${id}`,
-				{
-					...res,
-					address: `carrera ${career} #${street}-${number}`,
-					phone: `${indicative}${phone}`,
-				},
+				dataUpdate,
 				getConfig(token)
 			)
 			.then((response) => response.data);
