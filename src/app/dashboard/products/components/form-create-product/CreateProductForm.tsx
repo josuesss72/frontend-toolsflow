@@ -1,30 +1,37 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
-
-const shema = z.object({
-	name: z.string().nonempty(),
-	desc: z.string(),
-	code: z.string().nonempty(),
-	category: z.string(),
-	brand: z.string(),
-	purchasePrice: z.string().nonempty(),
-	salePrice: z.string().nonempty(),
-});
-
-type FormData = z.infer<typeof shema>;
+import dynamic from "next/dynamic";
+import Errors from "@/app/components/errors/Errors";
+import ModalCreate from "@/app/components/modals/ModalCreate";
+import CreatePresentationForm from "../create-presentation-form/CreatePresentationForm";
+import { usePresentationStore } from "@/app/zustand/product-presentations-store";
+import { Separator } from "@radix-ui/react-dropdown-menu";
+import { selectStyle } from "@/app/components/select-style";
+import { Toaster } from "sonner";
+import useCategory from "./hooks/use-category.hook";
+import useFormProduct from "./hooks/use-form.hook";
+import { useEffect } from "react";
+import { Controller } from "react-hook-form";
+import { DataTable } from "@/app/components/tables/DataTable";
+import { columnsPresentations } from "./components/comlums";
+// Dynamically import CreatableSelect with SSR disabled
+const DynamicCreatableSelect = dynamic(
+	() => import("react-select/creatable").then((mod) => mod.default),
+	{
+		loading: () => <div className="p-2 text-sm">Cargando categorías...</div>,
+		ssr: false,
+	}
+);
 
 const CreateProductForm = () => {
-	const { handleSubmit, register } = useForm<FormData>({
-		resolver: zodResolver(shema),
-	});
+	const { register, handleSubmit, control, errors, submit, handleOpenModal } =
+		useFormProduct();
+	const { getAllCategories, createCategory, categories } = useCategory();
+	// Zustand
+	const { presentations } = usePresentationStore();
 
-	const submit: SubmitHandler<FormData> = (data, event) => {
-		event?.preventDefault();
-		console.log(data);
-	};
+	useEffect(() => {
+		getAllCategories();
+	}, []);
 
 	return (
 		<form
@@ -46,42 +53,77 @@ const CreateProductForm = () => {
 					{...register("code")}
 				/>
 			</div>
-			<input
-				type="text"
-				placeholder="Descripción"
-				className="input_segundary"
-				{...register("desc")}
-			/>
-			<div className="flex gap-2">
-				<input
-					type="text"
-					placeholder="Marca"
-					className="input_segundary w-full"
-					{...register("brand")}
-				/>
-				<select
-					id="category"
-					className="bg-black p-1 rounded-sm"
-					{...register("category")}
-				>
-					<option value="category">Categoria</option>
-				</select>
-			</div>
-			<div className="flex gap-2">
-				<input
-					type="number"
-					placeholder="Precio de compra"
-					className="input_segundary w-full"
-					{...register("purchasePrice")}
-				/>
-				<input
-					type="number"
-					placeholder="Precio de venta"
-					className="input_segundary"
-					{...register("salePrice")}
+			<div className="flex flex-col gap-2">
+				<label htmlFor="category" className="text-sm">
+					Categoria
+				</label>
+				<Controller
+					name="category"
+					control={control}
+					render={({ field }) => (
+						<DynamicCreatableSelect
+							{...field}
+							styles={selectStyle}
+							options={categories}
+							onCreateOption={async (newValue) => {
+								const newCategory = await createCategory(newValue);
+								if (newCategory) {
+									field.onChange({ value: newCategory.id, label: newValue });
+								}
+							}}
+							placeholder="Escribe y presiona enter para crear..."
+							isClearable
+							noOptionsMessage={() => "No hay opciones"}
+							loadingMessage={() => "Cargando..."}
+							className="text-sm"
+							value={field.value}
+							onChange={(selectedOption) => field.onChange(selectedOption)}
+						/>
+					)}
 				/>
 			</div>
-			<button className="btn_segundary mt-4">Crear</button>
+			<Separator className="bg-white/20 h-[1px] my-2" />
+			<p className="text-sm text-center">
+				Crea presentaciones para el producto
+			</p>
+			<section className="flex flex-col gap-2">
+				<section className="flex gap-4">
+					<h2>Presentaciones</h2>
+					<ModalCreate
+						classNameBtn="btn_terciary"
+						text="Crea presentaciones para el producto"
+						title="Nueva Presentacion"
+						textBtn="Agregar"
+						handler={handleOpenModal}
+						type="create"
+					>
+						<CreatePresentationForm />
+					</ModalCreate>
+				</section>
+				{/* {presentations.length > 0 && (
+					<section className="flex flex-col gap-2">
+						{presentations.map((presentation) => (
+							<CardPresentationProduct
+								key={presentation.uid}
+								presentation={presentation}
+							/>
+						))}
+					</section>
+				)} */}
+				<DataTable columns={columnsPresentations} data={presentations} />
+			</section>
+			<button type="submit" className="btn_segundary mt-4">
+				Crear
+			</button>
+			<Errors errors={errors} />
+			{!errors && (
+				<Toaster
+					position="top-center"
+					theme="dark"
+					expand={true}
+					richColors={true}
+				/>
+			)}
 		</form>
 	);
 };
