@@ -8,7 +8,7 @@
   --primary-color-400: #454545;
   --primary-color-300: #1c1c1c;
   --hover-color: #1c398e; /* Color azul claro para hover */
-  --segundary-color: #172657;
+  --segundary-color: #1c398e;
   --border-color: #1c398e;
   --segundary-color-400: #2b80ff;
   --terciary-color: #DFD0B8;
@@ -18,7 +18,7 @@
   --text-color-segundary: #888888;
   --radius: 0.625rem;
   --background: #1c1c1c;
-  --foreground: oklch(0.13 0.028 261.692);
+  --foreground: #efefef;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.13 0.028 261.692);
   --popover: oklch(1 0 0);
@@ -64,6 +64,10 @@
 
 .btn_segundary {
   @apply flex cursor-pointer text-base bg-blue-900 py-1 px-4 rounded-md justify-center items-center border-blue-500 border-[1px]
+}
+
+.btn_terciary {
+  @apply text-sm border-[1px] bg-[var(--primary-color-300)] border-[var(--primary-color-400)] flex justify-center items-center cursor-pointer px-4 py-1 rounded-md
 }
 
 .input_primary {
