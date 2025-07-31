@@ -1,20 +1,31 @@
+import { toast, Toaster } from "sonner";
+import { useEffect } from "react";
+
 type Props = {
-  errors: object;
+	errors: Record<string, { message?: string }>;
 };
 
+/**
+ * Este componente recibe un objeto con errores y los muestra en una lista con un estilo de alerta en la parte inferior derecha de la pantalla
+ * @param {object} errors - objeto con errores
+ * @returns {JSX.Element} - lista de errores
+ */
 function Errors({ errors }: Props) {
-  return (
-    <div className="fixed flex flex-col right-2 bottom-2 gap-4 font-sans">
-      {Object.entries(errors).map(([key, value]) => (
-        <p
-          className="text-red-700 text-base animation-messages bg-[var(--primary-color-300)] rounded-sm border-[1px] border-[var(--primary-color-400)] p-4"
-          key={key}
-        >
-          {`${value?.message?.toString()}`}
-        </p>
-      ))}
-    </div>
-  );
+	useEffect(() => {
+		const errorMessages = Object.values(errors);
+		if (errorMessages.length > 0) {
+			toast.error(errorMessages[0]?.message);
+		}
+	}, [errors]);
+
+	return (
+		<Toaster
+			position="top-center"
+			theme="dark"
+			expand={true}
+			richColors={true}
+		/>
+	);
 }
 
 export default Errors;

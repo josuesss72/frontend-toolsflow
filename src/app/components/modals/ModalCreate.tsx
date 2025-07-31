@@ -25,15 +25,15 @@ const ModalCreate = ({
 	const { isOpen } = useOpenModalStore();
 	return (
 		<>
-			<button onClick={handler} className={classNameBtn}>
+			<button type="button" onClick={handler} className={classNameBtn}>
 				{textBtn}
 			</button>
 			{isOpen[type] && (
 				<Modal type={type}>
 					<h2 className="font-semibold text-xl">{title}</h2>
-					<p className="text-sm text-[var(--text-color-segundary)] w-[90%]">
+					<div className=" text-sm text-[var(--text-color-segundary)]">
 						{text}
-					</p>
+					</div>
 					{children}
 				</Modal>
 			)}
