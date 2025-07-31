@@ -5,8 +5,10 @@ import TableHeadquarters from "./components/item-headquarters/TableHeadquarters"
 export default function headquartersPage() {
 	return (
 		<Main>
-			<h1>Sucursales</h1>
-			<ModalCreateHeadquarters />
+			<section className="flex items-center justify-between">
+				<h1 className="text-4xl">Sucursales</h1>
+				<ModalCreateHeadquarters />
+			</section>
 			<TableHeadquarters />
 		</Main>
 	);
