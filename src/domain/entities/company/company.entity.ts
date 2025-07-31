@@ -1,34 +1,34 @@
-import { Entity } from "../entity";
+import { Response } from "../entity";
 
 export interface Company {
-  id: string;
-  name: string;
-  nit: string;
-  address: string;
-  city: string;
-  phone: string;
-  email: string;
+	id: string;
+	name: string;
+	nit: string;
+	address: string;
+	city: string;
+	phone: string;
+	email: string;
 }
 
 export interface PayloadCompany {
-  name: string;
-  email: string;
-  nit: string;
-  career: string;
-  street: string;
-  number: string;
-  city: string;
-  phone: string;
-  indicative: string;
+	name: string;
+	email: string;
+	nit: string;
+	career: string;
+	street: string;
+	number: string;
+	city: string;
+	phone: string;
+	indicative: string;
 }
-export interface FetchCompany extends Entity {
-  id: string;
-}
-
-export interface ResponseCompany extends Entity {
-  id: string;
+export interface FetchCompany extends Response {
+	id: string;
 }
 
-export interface FetchAllCompanies extends Entity {
-  companies: Company[] | boolean;
+export interface ResponseCompany extends Response {
+	id: string;
+}
+
+export interface FetchAllCompanies extends Response {
+	companies: Company[] | boolean;
 }

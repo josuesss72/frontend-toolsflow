@@ -1,11 +1,11 @@
-import { Entity } from "../entity";
+import { Response } from "../entity";
 
-export interface FetchLogin extends Entity {
+export interface FetchLogin extends Response {
 	token: string;
 	id: string;
 }
 
-export interface ResponseLogin extends Entity {
+export interface ResponseLogin extends Response {
 	token: string;
 	id: string;
 }

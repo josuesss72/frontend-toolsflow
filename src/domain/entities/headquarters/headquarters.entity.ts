@@ -1,26 +1,18 @@
-import { Entity } from "../entity";
+import { Response } from "../entity";
 
 export interface PayloadHeadquarters {
-	name: string;
-	email: string;
-	career: string;
-	street: string;
-	password: string;
-	number: string;
-	city: string;
-	phone: string;
-	country: string;
-	indicative: string;
+	name?: string;
+	email?: string;
+	career?: string;
+	street?: string;
+	password?: string;
+	number?: string;
+	city?: string;
+	phone?: string;
+	country?: string;
+	indicative?: string;
+	state?: string;
 }
-// export interface FetchHeadquarters extends Entity {
-// 	name: string;
-// 	email: string;
-// 	address: string;
-// 	city: string;
-// 	country: string;
-// 	phone: string;
-// 	password: string;
-// }
 
 export interface Headquarters {
 	address: string;
@@ -34,10 +26,10 @@ export interface Headquarters {
 	state: string;
 }
 
-export interface FetchAllHeadquarters extends Entity {
+export interface FetchAllHeadquarters extends Response {
 	headquarters: Headquarters[];
 }
 
-export interface FetchSuccessHeadquarters extends Entity {
+export interface FetchSuccessHeadquarters extends Response {
 	id: string;
 }

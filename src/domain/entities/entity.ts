@@ -1,4 +1,4 @@
-export interface Entity {
+export interface Response {
 	status: {
 		code: number;
 		message: string;
