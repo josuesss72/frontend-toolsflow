@@ -1,18 +1,10 @@
 import { AuthRepository } from "@/application/repositories/auth/auth.repository";
+import { PayloadLogin } from "@/domain/entities/auth/login.entity";
 
 export class LoginUseCase {
-	private authRepository;
-	data = {
-		email: "",
-		password: "",
-	};
+	constructor(private authRepository: AuthRepository) {}
 
-	constructor(authRepository: AuthRepository, data) {
-		this.authRepository = authRepository;
-		this.data = data;
-	}
-
-	async execute() {
-		return await this.authRepository.login(this.data);
+	async execute(data: PayloadLogin) {
+		return await this.authRepository.login(data);
 	}
 }

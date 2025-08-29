@@ -2,13 +2,9 @@ import PresentationRepository from "@/application/repositories/presentation/pres
 import { PayloadPresentation } from "@/domain/entities/presentation/presentation.entity";
 
 export default class CreatePresentationUseCase {
-	constructor(
-		private repository: PresentationRepository,
-		private data: PayloadPresentation,
-		private token: string
-	) {}
+	constructor(private repository: PresentationRepository) {}
 
-	async execute() {
-		return await this.repository.create(this.data, this.token);
+	async execute(data: PayloadPresentation, token: string) {
+		return await this.repository.create(data, token);
 	}
 }

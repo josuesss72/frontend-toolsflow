@@ -1,12 +1,9 @@
 import { ProductRepository } from "@/application/repositories/product/product.repository";
 
 export class GetAllProductsUseCase {
-	constructor(
-		private readonly productRepository: ProductRepository,
-		private readonly token: string
-	) {}
+	constructor(private readonly productRepository: ProductRepository) {}
 
-	async execute(companyId: string) {
-		return await this.productRepository.getAll(this.token, companyId);
+	async execute(companyId: string, token: string) {
+		return await this.productRepository.getAll(token, companyId);
 	}
 }
