@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
+import { motion } from "framer-motion";
 
 const shema = z.object({
 	name: z.string().trim().min(1, { message: "El nombre es requerido" }),
@@ -38,8 +39,8 @@ const RegisterForm = () => {
 
 	const onSubmit: SubmitHandler<FormData> = async (data, event) => {
 		event?.preventDefault();
-		await new RegisterUseCase(authRepository, data)
-			.execute()
+		await new RegisterUseCase(authRepository)
+			.execute(data)
 			.then((response) => {
 				if (response.status.ok) {
 					router.push("/auth/register/success");
@@ -54,44 +55,56 @@ const RegisterForm = () => {
 	};
 
 	return (
-		<form
-			onSubmit={handleSubmit(onSubmit)}
-			action=""
-			className="text-lg flex flex-col gap-2"
+		<motion.article
+			initial={{ opacity: 0, scale: 0 }}
+			animate={{ opacity: 1, scale: 1 }}
+			className={`flex flex-col gap-4`}
 		>
-			<div className="flex flex-col gap-1.5">
-				<input
-					type="text"
-					placeholder="Nombre"
-					className="input_segundary"
-					{...register("name")}
-				/>
-			</div>
-			<div className="flex flex-col gap-1.5">
-				<input
-					type="text"
-					placeholder="Email"
-					className="input_segundary"
-					{...register("email")}
-				/>
-			</div>
-			<div className="flex flex-col gap-1.5">
-				<input
-					placeholder="Password"
-					type="password"
-					className="input_segundary"
-					{...register("password")}
-				/>
-			</div>
-			<button className="btn_segundary mt-4">Enviar</button>
-			<Link
-				href={"/auth/login"}
-				className="mt-2 text-sm underline cursor-pointer mr-auto"
+			<section className="flex gap-1 justify-center">
+				<h1 className={`text-4xl text-blue-500/80 font-bold`}>Gesnigo</h1>
+			</section>
+			<p className="text-[var(--text-color-segundary)]">
+				Registrate para usar en totalidad nuestras herramientas
+			</p>
+			<form
+				onSubmit={handleSubmit(onSubmit)}
+				action=""
+				className="text-lg flex flex-col gap-2"
 			>
-				ya tienes cuenta?
-			</Link>
-			<Errors errors={errors} />
-		</form>
+				<div className="flex flex-col gap-1.5">
+					<input
+						type="text"
+						placeholder="Nombre"
+						className="input_segundary"
+						{...register("name")}
+					/>
+				</div>
+				<div className="flex flex-col gap-1.5">
+					<input
+						type="text"
+						placeholder="Email"
+						className="input_segundary"
+						{...register("email")}
+					/>
+				</div>
+				<div className="flex flex-col gap-1.5">
+					<input
+						placeholder="Password"
+						type="password"
+						className="input_segundary"
+						{...register("password")}
+					/>
+				</div>
+				<button className="btn_segundary mt-4">Enviar</button>
+				<Link
+					href={"/auth/login"}
+					className="mt-2 text-sm underline cursor-pointer mr-auto"
+				>
+					ya tienes cuenta?
+				</Link>
+				<Errors errors={errors} />
+			</form>
+		</motion.article>
 	);
 };
 
