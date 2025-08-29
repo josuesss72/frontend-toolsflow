@@ -1,5 +1,8 @@
 import { Response } from "../entity";
-import { PayloadPresentation } from "../presentation/presentation.entity";
+import {
+	PayloadPresentation,
+	Presentation,
+} from "../presentation/presentation.entity";
 
 export interface PayloadProduct {
 	name: string;
@@ -18,6 +21,9 @@ export interface Product {
 	code: string;
 	state: string;
 	totalStock: number;
+	presentations: Presentation[];
+	createdAt: string;
+	updatedAt: string;
 }
 
 export interface FetchAllProducts extends Response {
@@ -26,4 +32,8 @@ export interface FetchAllProducts extends Response {
 
 export interface FetchSuccessProduct extends Response {
 	id: string;
+}
+
+export interface FetchProduct extends Response {
+	product: Product;
 }

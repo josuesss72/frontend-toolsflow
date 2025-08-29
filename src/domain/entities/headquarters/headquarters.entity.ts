@@ -24,10 +24,15 @@ export interface Headquarters {
 	password: string;
 	phone: string;
 	state: string;
+	role: string;
 }
 
 export interface FetchAllHeadquarters extends Response {
 	headquarters: Headquarters[];
+}
+
+export interface FetchHeadquarters extends Response {
+	headquarters: Headquarters;
 }
 
 export interface FetchSuccessHeadquarters extends Response {

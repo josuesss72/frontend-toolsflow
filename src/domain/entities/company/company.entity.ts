@@ -25,6 +25,10 @@ export interface FetchCompany extends Response {
 	id: string;
 }
 
+export interface FetchSuccessCompany extends Response {
+	company: Company;
+}
+
 export interface ResponseCompany extends Response {
 	id: string;
 }
