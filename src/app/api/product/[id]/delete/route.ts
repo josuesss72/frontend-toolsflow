@@ -1,9 +1,6 @@
 import { getCookieStore } from "@/app/api/common/get-cookies";
-import { ProductRepository } from "@/application/repositories/product/product.repository";
-import DeleteProductUseCase from "@/application/use-cases/product/delete-product.usecase";
+import { productService } from "@/app/services/product.service";
 import { NextRequest, NextResponse } from "next/server";
-
-const repository = new ProductRepository(process.env.NEXT_PUBLIC_BASE_URL);
 
 export async function DELETE(
 	req: NextRequest,
@@ -12,12 +9,11 @@ export async function DELETE(
 	const { companyId, token } = await getCookieStore();
 	const { id } = context.params;
 	try {
-		const response = await new DeleteProductUseCase(
-			repository,
+		const response = await productService.deleteProduct.execute(
 			id,
 			token,
 			companyId
-		).execute();
+		);
 		if (!response.status.ok) {
 			return NextResponse.json(
 				{ message: "No se pudo eliminar" },

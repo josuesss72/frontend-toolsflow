@@ -17,8 +17,6 @@ export async function POST(req: Request) {
 			return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 		}
 
-		console.log(payload);
-
 		const response = await new CreateCategoryUseCase(
 			repository,
 			payload,
