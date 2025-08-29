@@ -1,10 +1,12 @@
 import { create } from "zustand";
-import { FormDataPresentation } from "../dashboard/products/components/create-presentation-form/CreatePresentationForm";
+import { FormDataPresentation } from "../utils/zod/shemas/presentation.shema";
+
+type Presentation = FormDataPresentation & { id: string };
 
 interface PresentationStore {
-	presentations: FormDataPresentation[];
+	presentations: Presentation[];
 	addPresentation: (presentation: FormDataPresentation) => void;
-	removePresentation: (uid: string) => void;
+	removePresentation: (id: string) => void;
 	clearPresentations: () => void;
 }
 
@@ -15,13 +17,16 @@ export const usePresentationStore = create<PresentationStore>((set) => ({
 	addPresentation: (presentation) =>
 		set((state) => ({
 			// Creamos un nuevo array con la presentacion agregada
-			presentations: [...state.presentations, presentation],
+			presentations: [
+				...state.presentations,
+				{ ...presentation, id: crypto.randomUUID() },
+			],
 		})),
-	// Eliminamos una presentacion del array por su uid
-	removePresentation: (uid) =>
+	// Eliminamos una presentacion del array por su id
+	removePresentation: (id) =>
 		set((state) => ({
 			// Creamos un nuevo array con las presentaciones que no coinciden con el uid
-			presentations: state.presentations.filter((p) => p.uid !== uid),
+			presentations: state.presentations.filter((p) => p.id !== id),
 		})),
 	// Vacia el array de presentaciones
 	clearPresentations: () => set({ presentations: [] }),

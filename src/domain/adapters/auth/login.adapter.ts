@@ -17,5 +17,7 @@ export const LoginAdapter = (fetchRespose: FetchLogin): ResponseLogin => {
 		status: fetchRespose.status,
 		token: fetchRespose.token,
 		id: fetchRespose.id,
+		role: fetchRespose.role,
+		companyId: fetchRespose.companyId,
 	};
 };
