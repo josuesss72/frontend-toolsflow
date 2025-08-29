@@ -1,10 +1,12 @@
 import { getConfig } from "@/application/config/token";
 import {
 	FetchAllProducts,
+	FetchProduct,
 	FetchSuccessProduct,
 	PayloadProduct,
 } from "@/domain/entities/product/product.entity";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { NetworkError, UnauthorizedError } from "../common/catchs-errors";
 
 export class ProductRepository {
 	apiUrl = "";
@@ -25,7 +27,11 @@ export class ProductRepository {
 				`${this.apiUrl}?companyId=${companyId}`,
 				getConfig(token)
 			)
-			.then((response) => response.data);
+			.then((response) => response.data)
+			.catch((error) => {
+				this.handleErrors(error);
+				throw error;
+			});
 	}
 
 	/**
@@ -42,7 +48,28 @@ export class ProductRepository {
 				data,
 				getConfig(token)
 			)
-			.then((response) => response.data);
+			.then((response) => response.data)
+			.catch((error) => {
+				this.handleErrors(error);
+				throw error;
+			});
+	}
+
+	/**
+	 * Obtiene un producto existente en la base de datos
+	 * @param id el id del producto a obtener
+	 * @param token el token de autenticacion del usuario
+	 * @param companyId el id de la empresa a la que pertenece el producto
+	 * @returns el producto obtenido
+	 */
+	async getById(id: string, token: string) {
+		return await axios
+			.get<FetchProduct>(`${this.apiUrl}/${id}`, getConfig(token))
+			.then((response) => response.data)
+			.catch((error) => {
+				this.handleErrors(error);
+				throw error;
+			});
 	}
 
 	/**
@@ -58,7 +85,11 @@ export class ProductRepository {
 				`${this.apiUrl}/${id}?companyId=${companyId}`,
 				getConfig(token)
 			)
-			.then((response) => response.data);
+			.then((response) => response.data)
+			.catch((error) => {
+				this.handleErrors(error);
+				throw error;
+			});
 	}
 
 	/**
@@ -71,6 +102,21 @@ export class ProductRepository {
 	async update(id: string, data: PayloadProduct, token: string) {
 		return await axios
 			.put<FetchSuccessProduct>(`${this.apiUrl}/${id}`, data, getConfig(token))
-			.then((response) => response.data);
+			.then((response) => response.data)
+			.catch((error) => {
+				this.handleErrors(error);
+				throw error;
+			});
+	}
+
+	private handleErrors(error: AxiosError) {
+		console.log(error);
+		if (!error.response) {
+			throw new NetworkError("No se pudo conectar al servidor");
+		}
+
+		if (error.response.status === 401) {
+			throw new UnauthorizedError("Credenciales inválidas");
+		}
 	}
 }

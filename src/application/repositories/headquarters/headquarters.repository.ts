@@ -1,15 +1,18 @@
 import { getConfig } from "@/application/config/token";
 import {
 	FetchAllHeadquarters,
+	FetchHeadquarters,
 	FetchSuccessHeadquarters,
 	PayloadHeadquarters,
 } from "@/domain/entities/headquarters/headquarters.entity";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { NetworkError, UnauthorizedError } from "../common/catchs-errors";
 
 export class HeadquartersRepository {
 	apiAuth = "";
 	apiUrl = "";
-	constructor(private readonly baseUrl: string) {
+	constructor(private readonly baseUrl: string | undefined) {
+		if (!this.baseUrl) throw new Error("Base URL is required");
 		this.apiAuth = `${this.baseUrl}/headquarters-auth`;
 		this.apiUrl = `${this.baseUrl}/headquarters`;
 	}
@@ -26,7 +29,11 @@ export class HeadquartersRepository {
 				},
 				getConfig(token)
 			)
-			.then((response) => response.data);
+			.then((response) => response.data)
+			.catch((error) => {
+				this.handleErrors(error);
+				throw error;
+			});
 	}
 
 	async update(data: PayloadHeadquarters, token: string, id: string) {
@@ -48,7 +55,11 @@ export class HeadquartersRepository {
 				dataUpdate,
 				getConfig(token)
 			)
-			.then((response) => response.data);
+			.then((response) => response.data)
+			.catch((error) => {
+				this.handleErrors(error);
+				throw error;
+			});
 	}
 
 	async getAll(companyId: string, token: string) {
@@ -57,7 +68,21 @@ export class HeadquartersRepository {
 				`${this.apiUrl}?companyId=${companyId}`,
 				getConfig(token)
 			)
-			.then((response) => response.data);
+			.then((response) => response.data)
+			.catch((error) => {
+				this.handleErrors(error);
+				throw error;
+			});
+	}
+
+	async getById(id: string, token: string) {
+		return axios
+			.get<FetchHeadquarters>(`${this.apiUrl}/${id}`, getConfig(token))
+			.then((response) => response.data)
+			.catch((error) => {
+				this.handleErrors(error);
+				throw error;
+			});
 	}
 
 	async remove(id: string, token: string) {
@@ -66,6 +91,20 @@ export class HeadquartersRepository {
 				`${this.apiUrl}/${id}`,
 				getConfig(token)
 			)
-			.then((response) => response.data);
+			.then((response) => response.data)
+			.catch((error) => {
+				this.handleErrors(error);
+				throw error;
+			});
+	}
+
+	private handleErrors(error: AxiosError) {
+		if (!error.response) {
+			throw new NetworkError("No se pudo conectar al servidor");
+		}
+
+		if (error.response.status === 401) {
+			throw new UnauthorizedError("Credenciales inválidas");
+		}
 	}
 }
