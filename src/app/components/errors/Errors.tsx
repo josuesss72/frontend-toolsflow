@@ -13,8 +13,9 @@ type Props = {
 function Errors({ errors }: Props) {
 	useEffect(() => {
 		const errorMessages = Object.values(errors);
+		const label = Object.keys(errors);
 		if (errorMessages.length > 0) {
-			toast.error(errorMessages[0]?.message);
+			toast.error(`${label[0]}: ${errorMessages[0]?.message}`);
 		}
 	}, [errors]);
 

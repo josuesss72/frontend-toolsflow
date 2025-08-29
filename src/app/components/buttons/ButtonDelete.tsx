@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useOpenModalStore } from "@/app/zustand/open-modal";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import axios from "axios";
@@ -15,22 +14,18 @@ const ButtonDelete = <DATA extends { id: string }>({
 	data,
 	apiRoute,
 }: ButtonDeleteProps<DATA>) => {
-	const { setSelectedData, dataSelected } = useOpenModalStore();
 	const router = useRouter();
 
-	const handleConfirmDelete = async () => {
-		const id = dataSelected.id ? dataSelected.id : "";
+	const handleConfirmDelete = async (data: DATA) => {
 		return await axios
-			.delete(`/api/${apiRoute}/${id}/delete`)
+			.delete(`/api/${apiRoute}/${data.id}/delete`)
 			.then((res) => {
 				if (res.data.status.ok) {
-					toast.success("Producto eliminado");
-					setSelectedData(null);
 					router.refresh();
 				}
 			})
 			.catch((error) => {
-				toast.error("Error al eliminar");
+				console.log(error);
 			});
 	};
 
@@ -38,15 +33,15 @@ const ButtonDelete = <DATA extends { id: string }>({
 		<button
 			className="cursor-pointer flex items-center gap-2"
 			onClick={() => {
-				setSelectedData(data);
 				toast("Estas seguro que quieres eliminar este producto?", {
 					action: {
 						label: "Confirmar",
-						onClick: () => {
-							toast.promise(handleConfirmDelete(), {
+						onClick: () =>
+							toast.promise(handleConfirmDelete(data), {
 								loading: "Eliminando...",
-							});
-						},
+								success: "Producto eliminado exitosamente",
+								error: "No se pudo eliminar el producto",
+							}),
 					},
 				});
 			}}

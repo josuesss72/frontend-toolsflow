@@ -12,7 +12,7 @@ import {
 	useReactTable,
 	VisibilityState,
 } from "@tanstack/react-table";
-import { ChevronDown } from "lucide-react";
+// import { ChevronDown } from "lucide-react";
 import {
 	Table,
 	TableBody,
@@ -22,12 +22,12 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
-import {
-	DropdownMenu,
-	DropdownMenuCheckboxItem,
-	DropdownMenuContent,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+// import {
+// 	DropdownMenu,
+// 	DropdownMenuCheckboxItem,
+// 	DropdownMenuContent,
+// 	DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Toaster } from "sonner";
 
@@ -63,9 +63,9 @@ export function DataTable<TData, TValue>({
 		},
 	});
 	return (
-		<div className="w-full">
+		<div className="w-full h-full">
 			<Toaster position="top-center" theme="dark" />
-			<div className="flex items-center py-4">
+			{/* <div className="flex items-center py-4">
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
 						<Button variant="outline" className="ml-auto border-gray-700">
@@ -95,8 +95,8 @@ export function DataTable<TData, TValue>({
 							})}
 					</DropdownMenuContent>
 				</DropdownMenu>
-			</div>
-			<div className="overflow-hidden rounded-md border border-gray-700 bg-black">
+			</div> */}
+			<div className="overflow-hidden rounded-md border border-gray-700 bg-black h-[calc(100%-3rem)]">
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
@@ -106,7 +106,10 @@ export function DataTable<TData, TValue>({
 							>
 								{headerGroup.headers.map((header) => {
 									return (
-										<TableHead className="uppercase font-bold" key={header.id}>
+										<TableHead
+											className="uppercase text-center font-bold border-r-[1px] border-gray-700"
+											key={header.id}
+										>
 											{header.isPlaceholder
 												? null
 												: flexRender(
@@ -129,7 +132,7 @@ export function DataTable<TData, TValue>({
 								>
 									{row.getVisibleCells().map((cell) => (
 										<TableCell
-											className="font-semibold uppercase text-xs"
+											className="font-semibold uppercase border-r-[1px] border-gray-700 border-b-[1px] text-sm text-center"
 											key={cell.id}
 										>
 											{flexRender(

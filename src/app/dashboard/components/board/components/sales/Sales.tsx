@@ -1,12 +1,17 @@
 import Chart from "@/app/components/charts/Chart";
 import React from "react";
+import { styleBoard } from "../../styles";
 
 const Sales = () => {
 	return (
-		<article className="row-start-4 row-end-5 col-start-1 col-end-4 cursor-pointer pt-4 pr-2 shadow-lg shadow-gray-950 justify-between border-[1px] border-gray-700 bg-[var(--background)] rounded-lg">
+		<article
+			className={`row-start-3 row-end-5 col-start-1 col-end-5 cursor-pointer ${styleBoard.CARD}`}
+		>
 			<div className="grid gap-2 w-full h-full">
 				<section>
-					<p className="font-sans pl-4 font-semibold text-xl">Ventas</p>
+					<p className="font-sans pl-4 font-semibold text-xl text-white">
+						Ventas
+					</p>
 				</section>
 				<section className="w-full h-full">
 					<Chart />

@@ -1,8 +1,20 @@
 import React from "react";
 
-const LogoSmall = ({ className }: { className: string }) => {
+const LogoSmall = ({
+	className,
+	dark,
+}: {
+	className?: string;
+	dark?: boolean;
+}) => {
 	return (
-		<span className={`${className} text-blue-500/80 font-bold`}>Gesnigo</span>
+		<span
+			className={`${className} ${
+				dark ? "text-black" : "text-blue-500/80"
+			} font-bold`}
+		>
+			Gesnigo
+		</span>
 	);
 };
 

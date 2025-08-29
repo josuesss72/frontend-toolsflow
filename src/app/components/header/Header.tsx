@@ -1,15 +1,21 @@
 "use client";
 import React from "react";
 import ButtonCreate from "./components/ButtonCreate";
-import Select from "react-select";
 import { selectStyle } from "../select-style";
+import { DynamicCreatableSelect } from "@/app/common/imports-libraries-client";
+import Notifications from "./components/Notifications";
+import Link from "next/link";
+import { useAppContext } from "@/app/common/AppProvider";
+import ButtonOptionAccount from "./components/ButtonOptionAccount";
 
 const Header = () => {
+	const { user } = useAppContext();
 	return (
-		<header className="flex fixed back_gradient left-16 right-0 justify-between items-center py-4 pr-16">
-			<article className="mx-auto">
+		<header className="flex fixed w-[80%] h-[10%] right-0 shadow-lg bg-[var(--background)] shadow-black/50 justify-between items-center px-16">
+			<article className="flex justify-center items-center gap-4 w-full">
+				{/* Buscador */}
 				<form action="" className="flex gap-2">
-					<Select
+					<DynamicCreatableSelect
 						styles={selectStyle}
 						classNamePrefix="select"
 						options={[
@@ -22,11 +28,24 @@ const Header = () => {
 					/>
 					<input
 						type="text"
-						className="w-[300px] p-0.5 border-[1px] focus:outline-none border-gray-700 rounded-sm bg-black"
+						placeholder="Buscar..."
+						className="w-[300px] p-0.5 border-[1px] focus:outline-none rounded-sm bg-gray-500 text-black"
 					/>
 				</form>
+				{user?.role === "USER" && (
+					<Link
+						href={"/panel"}
+						className="hover:text-[var(--segundary-color-400)]"
+					>
+						Panel
+					</Link>
+				)}
 			</article>
-			<ButtonCreate />
+			<section className="flex items-center gap-4">
+				<ButtonCreate />
+				<Notifications />
+				<ButtonOptionAccount />
+			</section>
 		</header>
 	);
 };

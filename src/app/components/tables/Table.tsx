@@ -5,16 +5,23 @@ const bc = "border-gray-700";
 interface ItemTableProps {
 	children?: React.ReactNode;
 	classCols?: string;
+	className?: string;
 }
 
-export const ItemTable = ({ children, classCols }: ItemTableProps) => {
+export const ItemTable = ({
+	children,
+	classCols,
+	className,
+}: ItemTableProps) => {
 	return (
-		<section className={`col-span-full text-sm`}>
-			<div className={`grid ${classCols} border-b-[1px] ${bc}`}>
+		<section className={`col-span-full text-sm ${className}`}>
+			<div
+				className={`grid grid-cols-[repeat(${classCols},1fr)] border-b-[1px] ${bc}`}
+			>
 				{React.Children.map(children, (child) => {
 					if (React.isValidElement(child)) {
 						return React.cloneElement(child as ReactElement<any>, {
-							className: `border-r-[1px] p-1.5 border-gray-700 flex justify-center items-center`,
+							className: `border-r-[1px] p-1.5 border-gray-700 flex justify-center items-center gap-4`,
 						});
 					}
 					return child;
@@ -34,11 +41,13 @@ export const LabelTable = ({ children, classCols }: LabelTableProps) => {
 		<section
 			className={`col-span-full text-base font-semibold row-start-1 border-r-[1px] border-b-[1px] ${bc} bg-blue-900`}
 		>
-			<div className={`grid ${classCols} col-span-full`}>
+			<div
+				className={`grid grid-cols-[repeat(${classCols},1fr)] col-span-full`}
+			>
 				{React.Children.map(children, (child) => {
 					if (React.isValidElement(child)) {
 						return React.cloneElement(child as ReactElement<any>, {
-							className: `border-r-[1px] p-1.5 border-black text-center`,
+							className: `border-r-[1px] p-1.5 border-black text-center truncate overflow-hidden`,
 						});
 					}
 					return child;
@@ -49,16 +58,14 @@ export const LabelTable = ({ children, classCols }: LabelTableProps) => {
 };
 
 interface TableProps {
-	classCols?: string;
+	classCols: string;
 	children?: React.ReactNode;
-	maxw?: string;
-	minw?: string;
 }
 
-export default function Table({ classCols, children, maxw, minw }: TableProps) {
+export default function Table({ classCols, children }: TableProps) {
 	return (
 		<article
-			className={`grid ${classCols} w-full min-w-[${minw}] max-w-[${maxw}] grid-rows-[repeat(auto-fit)] border-t-[1px] border-l-[1px] ${bc} bg-black`}
+			className={`grid grid-cols-[repeat(${classCols},1fr)] w-full border-t-[1px] border-l-[1px] ${bc} bg-black`}
 		>
 			{React.Children.map(children, (child) => {
 				if (React.isValidElement(child)) {

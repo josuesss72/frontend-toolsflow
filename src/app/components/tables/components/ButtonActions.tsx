@@ -2,22 +2,21 @@
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
-	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
+import { Edit2Icon, MoreHorizontal } from "lucide-react";
 import React from "react";
 import ButtonDelete from "../../buttons/ButtonDelete";
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
+import Link from "next/link";
 
-type Checked = DropdownMenuCheckboxItemProps["checked"];
+// type Checked = DropdownMenuCheckboxItemProps["checked"];
 
 const ButtonActions = ({ row }: { row: any }) => {
-	const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
+	// const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -32,14 +31,21 @@ const ButtonActions = ({ row }: { row: any }) => {
 			>
 				<DropdownMenuLabel>Acciones</DropdownMenuLabel>
 				<DropdownMenuSeparator className="bg-gray-700" />
-				<DropdownMenuCheckboxItem
+				{/* <DropdownMenuCheckboxItem
 					className="cursor-pointer"
 					checked={showActivityBar}
 					onCheckedChange={setShowActivityBar}
 				>
 					Activo
-				</DropdownMenuCheckboxItem>
-				<DropdownMenuItem className="cursor-pointer">Editar</DropdownMenuItem>
+				</DropdownMenuCheckboxItem> */}
+				<DropdownMenuItem className="cursor-pointer">
+					<Link
+						className="flex gap-2 items-center"
+						href={`/panel/products/edit/${row.original.id}`}
+					>
+						<Edit2Icon className="w-4 h-4" /> Editar
+					</Link>
+				</DropdownMenuItem>
 				<DropdownMenuItem className="cursor-pointer">
 					<ButtonDelete data={row.original} apiRoute={"product"} />
 				</DropdownMenuItem>

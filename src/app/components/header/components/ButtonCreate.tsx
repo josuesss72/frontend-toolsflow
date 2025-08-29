@@ -1,11 +1,9 @@
 "use client";
 import { Plus } from "lucide-react";
 import React from "react";
-import Link from "next/link";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
-	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -17,12 +15,12 @@ const ButtonCreate = () => {
 				Crear
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="bg-black text-white border-gray-700">
-				<DropdownMenuItem className="hover:bg-gray-700">
+				{/* <DropdownMenuItem className="hover:bg-gray-700">
 					<Link href={"/dashboard/products"}>Productos</Link>
 				</DropdownMenuItem>
 				<DropdownMenuItem className="hover:bg-gray-700">
 					<Link href={"/dashboard/headquarters"}>Sucursales</Link>
-				</DropdownMenuItem>
+				</DropdownMenuItem> */}
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);
