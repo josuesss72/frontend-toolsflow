@@ -1,11 +1,11 @@
 import { z } from "zod";
 
 export const presentationShema = z.object({
-	uid: z.string().optional(),
+	//id: z.string(),
 	salePrice: z.string().nonempty(),
 	purchasePrice: z.string().nonempty(),
 	iva: z.string().nonempty(),
-	medidas: z
+	measureSale: z
 		.array(
 			z.object({
 				value: z.string(),
@@ -13,6 +13,10 @@ export const presentationShema = z.object({
 			})
 		)
 		.nonempty(),
+	//stock: z.string().nonempty(),
+	//maxAllowed: z.string().nonempty(),
+	//minAllowed: z.string().nonempty(),
+	//equivalence: z.string().nonempty(),
 	labels: z.array(z.string()).optional(),
 	supplier: z.string().optional(),
 });
