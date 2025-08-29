@@ -1,3 +1,4 @@
+import { AppProvider } from "../common/AppProvider";
 import Header from "../components/header/Header";
 import Nav from "./components/nav/Nav";
 
@@ -7,10 +8,12 @@ export default function DashboardLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<div className="flex">
-			<Header />
-			<Nav />
-			{children}
-		</div>
+		<AppProvider>
+			<div className="flex">
+				<Header />
+				<Nav />
+				{children}
+			</div>
+		</AppProvider>
 	);
 }
